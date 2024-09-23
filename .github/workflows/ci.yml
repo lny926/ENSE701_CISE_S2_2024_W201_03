@@ -13,7 +13,7 @@ jobs:
     defaults:
         run:
             shell: bash
-            working-directory: ./worksheet2/my-react-app
+            working-directory: ./w201_03_frontend
 
     strategy:
       matrix:
