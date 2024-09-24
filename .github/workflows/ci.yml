@@ -13,7 +13,6 @@ jobs:
     defaults:
         run:
             shell: bash
-            working-directory: ./w201_03_frontend
 
     strategy:
       matrix:
@@ -31,5 +30,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
+      - name: Build frontend
+        run: |
+          cd ./w201_03_frontend
+          npm run build
+
+      - name: Build backend
+        run: |
+          cd ./w201_03_backend
+          npm run build
