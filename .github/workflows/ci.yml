@@ -29,22 +29,20 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          echo "Building frontend..."
-          cd ./w201_03_frontend
+          working-directory: ./w201_03_frontend
           npm install
 
       - name: Build frontend
         run: |
-          cd ./w201_03_frontend
+          working-directory: ./w201_03_frontend
           npm run build
 
-       - name: Install backend dependencies
+      - name: Install backend dependencies
         run: |
-          echo "Building backend..."
-          cd ./w201_03_backend
+          working-directory: ./w201_03_backend
           npm install
 
       - name: Build backend
         run: |
-          cd ./w201_03_backend
+          working-directory: ./w201_03_backend
           npm run build
