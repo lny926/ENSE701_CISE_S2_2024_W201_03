@@ -27,13 +27,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version}}
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install frontend dependencies
+        run: |
+          echo "Building frontend..."
+          cd ./w201_03_frontend
+          npm install
 
       - name: Build frontend
         run: |
           cd ./w201_03_frontend
           npm run build
+
+       - name: Install backend dependencies
+        run: |
+          echo "Building backend..."
+          cd ./w201_03_backend
+          npm install
 
       - name: Build backend
         run: |
