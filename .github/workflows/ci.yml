@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    defaults:
-        run:
-            shell: bash
-
     strategy:
       matrix:
         node-version: [18.x]
@@ -25,24 +21,21 @@ jobs:
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version}}
+          node-version: ${{ matrix.node-version }}
 
       - name: Install frontend dependencies
-        run: |
-          working-directory: ./w201_03_frontend
-          npm install
+        working-directory: ./w201_03_frontend
+        run: npm install
 
       - name: Build frontend
-        run: |
-          working-directory: ./w201_03_frontend
-          npm run build
+        working-directory: ./w201_03_frontend
+        run: npm run build
 
       - name: Install backend dependencies
-        run: |
-          working-directory: ./w201_03_backend
-          npm install
+        working-directory: ./w201_03_backend
+        run: npm install
 
+      # Step 6: Build backend
       - name: Build backend
-        run: |
-          working-directory: ./w201_03_backend
-          npm run build
+        working-directory: ./w201_03_backend
+        run: npm run build
