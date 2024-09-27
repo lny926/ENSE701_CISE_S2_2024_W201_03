@@ -1,25 +1,15 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
-// Define the user schema
-const userSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true, // Ensures no two users can have the same email
-    },
-    password: {
-        type: String,
-        required: true, // Password is required for user authentication
-    },
-    firstName: {
-        type: String,
-        required: true, // First name is required
-    },
-    lastName: {
-        type: String,
-        required: true, // Last name is required
-    },
+const UserSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
-// Export the User model
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model('User', UserSchema);
