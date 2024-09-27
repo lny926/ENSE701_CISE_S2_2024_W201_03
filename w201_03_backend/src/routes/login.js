@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-const User = require('../models/User'); // Create a User model in models folder
+const User = require('../models/User'); 
 
 const router = express.Router();
 
