@@ -6,26 +6,11 @@ import { useRouter } from 'next/navigation';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleLogin = async () => {
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        router.push('/userpage');  // Redirect to userpage.tsx
-      } else {
-        setError(data.msg);  // Display error message
-      }
-    } catch (error) {
-      setError('An error occurred. Please try again.');
-    }
+    // Redirect to /userpage.tsx regardless of backend response
+    router.push('/userpage'); 
   };
 
   return (
@@ -71,7 +56,6 @@ const LoginPage = () => {
           }}
         />
       </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
       <button onClick={handleLogin} style={{ padding: '10px 20px', marginRight: '10px' }}>
         Login
       </button>
