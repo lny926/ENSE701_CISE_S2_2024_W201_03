@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import authRoutes from './routes/auth';
+import authRoutes from './src/routes/auth.js';
 
 const app = express();
 
@@ -10,7 +10,7 @@ app.use('/api/auth', authRoutes);
 // MongoDB connection
 mongoose
   .connect(
-    'mongodb+srv://mdd2557:<SCRAM>@speed.docah.mongodb.net/SPEED?retryWrites=true&w=majority',
+    'mongodb+srv://mdd2557:group3@speed.docah.mongodb.net/SPEED?retryWrites=true&w=majority',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -1,16 +1,21 @@
 import express from 'express';
-import bcrypt from 'bcrypt';
-import User from '../models/User'; // Import the User model
+import bcrypt from 'bcryptjs';
+import User from '../models/User.js'; // Import the User model
 
 const router = express.Router();
 
+// Register Route
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
   try {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ msg: 'User already exists' });
 
-    user = new User({ email, password });
+    // Hash the password before saving
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    user = new User({ email, password: hashedPassword });
     await user.save();
     res.json({ msg: 'User registered successfully' });
   } catch (error) {
@@ -18,6 +23,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// Login Route
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -35,4 +41,4 @@ router.post('/login', async (req, res) => {
   }
 });
 
-export default router; // Use export default for TypeScript compatibility
+export default router; // Export the router for usage in other files
