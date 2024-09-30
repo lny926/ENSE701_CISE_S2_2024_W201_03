@@ -3,19 +3,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const LoginPage = () => {
+const AdminLoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleLogin = async () => {
-    // Redirect to /userpage.tsx regardless of backend response
-    router.push('/userpage'); 
-  };
-
-  const handleAdminLogin = () => {
-    // Redirect to /adminlogin.tsx for admin login
-    router.push('/adminlogin');
+  const handleAdminLogin = async () => {
+    // Redirect to /admindashboard.tsx regardless of backend response
+    router.push('/admindashboard'); 
   };
 
   return (
@@ -30,12 +25,7 @@ const LoginPage = () => {
       justifyContent: 'center', 
       alignItems: 'center'
     }}>
-      <h1>SPEED Login</h1>
-      <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
-        <button onClick={handleAdminLogin} style={{ padding: '10px 20px' }}>
-          Admin Login
-        </button>
-      </div>
+      <h1>SPEED Admin Login</h1>
       <div style={{ marginBottom: '10px', width: '100%' }}>
         <label>Email:</label>
         <input
@@ -66,11 +56,11 @@ const LoginPage = () => {
           }}
         />
       </div>
-      <button onClick={handleLogin} style={{ padding: '10px 20px', marginRight: '10px' }}>
+      <button onClick={handleAdminLogin} style={{ padding: '10px 20px', marginRight: '10px' }}>
         Login
       </button>
     </div>
   );
 };
 
-export default LoginPage;
+export default AdminLoginPage;

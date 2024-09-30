@@ -1,12 +1,20 @@
 import mongoose from 'mongoose';
 
-mongoose
-  .connect(
-    'mongodb+srv://mdd2557:<db_password>@speed.docah.mongodb.net/SPEED?retryWrites=true&w=majority',
-    {
+const connectDB = async () => {
+  if (mongoose.connections[0].readyState) {
+    return;  // If already connected, do nothing
+  }
+
+  try {
+    await mongoose.connect('mongodb+srv://mdd2557:group3@speed.docah.mongodb.net/SPEED?retryWrites=true&w=majority', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    },
-  )
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((error) => console.error('MongoDB connection error:', error));
+    });
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    throw new Error('MongoDB connection failed');
+  }
+};
+
+export default connectDB;
