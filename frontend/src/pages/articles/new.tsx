@@ -9,6 +9,7 @@ const [pubYear, setPubYear] = useState<number>(0);
 const [doi, setDoi] = useState("");
 const [summary, setSummary] = useState("");
 const [linkedDiscussion, setLinkedDiscussion] = useState("");
+const [searchTerm, setSearchTerm] = useState("");
 
 const submitNewArticle = async (event: FormEvent<HTMLFormElement>) => {
 event.preventDefault();
@@ -44,21 +45,31 @@ return index === i ? value : oldValue;
 };
 
 // Return the full form
-return (
-<div className="container">
-<h1>New Article</h1>
-<form className={formStyles.form} onSubmit={submitNewArticle}>
-<label htmlFor="title">Title:</label>
-<input
-className={formStyles.formItem}
-type="text"
-name="title"
-id="title"
-value={title}
-onChange={(event) => {
-setTitle(event.target.value);
-}}
-/>
+    return (
+        <div className="container">
+            <h1>New Article</h1>
+
+            <div style={{ textAlign: "right", marginBottom: "20px" }}>
+                <input
+                    type="text"
+                    placeholder="Search articles..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ padding: "8px", fontSize: "1em" }} 
+                />
+            </div>
+            <form className={formStyles.form} onSubmit={submitNewArticle}>
+                <label htmlFor="title">Title:</label>
+                <input
+                    className={formStyles.formItem}
+                    type="text"
+                    name="title"
+                    id="title"
+                    value={title}
+                    onChange={(event) => {
+                        setTitle(event.target.value);
+                    }}
+                />
 
 <label htmlFor="author">Authors:</label>
 {authors.map((author, index) => {
