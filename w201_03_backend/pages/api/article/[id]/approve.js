@@ -6,6 +6,7 @@ import Article from '../../../models/Article';
 const cors = Cors({
   origin: 'http://localhost:3000',
   methods: ['GET', 'PUT', 'POST'],
+  credentials: true, // Allow credentials (e.g., cookies, authorization headers)
 });
 
 function runMiddleware(req, res, fn) {

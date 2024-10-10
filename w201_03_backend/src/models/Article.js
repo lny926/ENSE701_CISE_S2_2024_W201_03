@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
 
 const ArticleSchema = new mongoose.Schema({
-  title: String,
-  author: String,
-  journal: String,
-  year: Number,
-  status: String,
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  journal: { type: String, required: true },
+  year: { type: Number, required: true },
+  status: {
+    type: String,
+    default: 'pending',
+    enum: ['pending', 'approved', 'rejected'],
+  },
 });
 
-export default mongoose.models.Article || mongoose.model('Article', ArticleSchema);
+export default mongoose.models.Article ||
+  mongoose.model('Article', ArticleSchema);

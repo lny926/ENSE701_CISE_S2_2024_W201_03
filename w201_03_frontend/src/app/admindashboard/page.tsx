@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+
 interface Article {
   _id: string;
   title: string;
@@ -14,38 +15,48 @@ interface Article {
 const AdminDashboard = () => {
   const [articles, setArticles] = useState<Article[]>([]);
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await fetch('http://localhost:3001/api/article/pending', { method: 'GET' });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.statusText}`);
-        }
-        const data = await response.json();
-        setArticles(data.articles);
-      } catch (error) {
-        console.error('Error fetching articles:', error);
+  // Fetch pending articles
+  const fetchArticles = async () => {
+    try {
+      const response = await fetch('http://localhost:8082/api/article/pending');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    };
-  
-    fetchArticles();
-  }, []);
-  
+      const data = await response.json();
+      setArticles(data.articles || []);
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+    }
+  };
 
+  // useEffect to call fetchArticles on component mount
+  useEffect(() => {
+    fetchArticles();
+  }, []); // Empty dependency array ensures this runs once after the component mounts
+
+  // Handle approve article
   const handleApprove = async (id: string) => {
-    const response = await fetch(`http://localhost:3001/api/article/${id}/approve`, { method: 'PUT' });
-    if (response.ok) {
-      setArticles(articles.filter(article => article._id !== id));
+    try {
+      const response = await fetch(`http://localhost:8082/api/article/${id}/approve`, { method: 'PUT' });
+      if (response.ok) {
+        setArticles(articles.filter(article => article._id !== id)); // Remove approved article from state
+      }
+    } catch (error) {
+      console.error('Error approving article:', error);
     }
   };
-  
+
+  // Handle reject article
   const handleReject = async (id: string) => {
-    const response = await fetch(`http://localhost:3001/api/article/${id}/reject`, { method: 'PUT' });
-    if (response.ok) {
-      setArticles(articles.filter(article => article._id !== id));
+    try {
+      const response = await fetch(`http://localhost:8082/api/article/${id}/reject`, { method: 'PUT' });
+      if (response.ok) {
+        setArticles(articles.filter(article => article._id !== id)); // Remove rejected article from state
+      }
+    } catch (error) {
+      console.error('Error rejecting article:', error);
     }
   };
-  
 
   return (
     <div style={{
@@ -63,7 +74,7 @@ const AdminDashboard = () => {
       {articles.length > 0 ? (
         <ul>
           {articles.map(article => (
-            <li key={article._id}>
+            <li key={article._id} style={{ marginBottom: '20px' }}>
               <p><strong>{article.title}</strong> by {article.author} ({article.year})</p>
               <button onClick={() => handleApprove(article._id)} style={{ marginRight: '10px' }}>
                 Approve

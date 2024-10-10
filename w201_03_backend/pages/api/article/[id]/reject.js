@@ -4,8 +4,9 @@ import Article from '../../../../models/Article';
 
 // Initialize CORS middleware
 const cors = Cors({
-  origin: 'http://localhost:3000',  // Allow your frontend's origin
-  methods: ['GET', 'PUT', 'POST'],  // Allowed methods
+  origin: 'http://localhost:3000', // Allow your frontend's origin
+  methods: ['GET', 'PUT', 'POST'], // Allowed methods
+  credentials: true, // Allow credentials (e.g., cookies, authorization headers)
 });
 
 // Helper function to run middleware
@@ -21,7 +22,7 @@ function runMiddleware(req, res, fn) {
 }
 
 export default async function handler(req, res) {
-  await runMiddleware(req, res, cors);  // Apply CORS middleware
+  await runMiddleware(req, res, cors); // Apply CORS middleware
 
   if (req.method === 'PUT') {
     await connectDB();
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
       const article = await Article.findById(req.query.id);
       if (!article) return res.status(404).json({ error: 'Article not found' });
 
-      article.status = 'rejected';  // Change the status to 'rejected'
+      article.status = 'rejected'; // Change the status to 'rejected'
       await article.save();
 
       return res.status(200).json({ message: 'Article rejected' });
